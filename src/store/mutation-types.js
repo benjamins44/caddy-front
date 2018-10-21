@@ -1,1 +1,4 @@
 export const PRODUCT_INSTANCES = 'PRODUCT_INSTANCES'
+export const PRODUCT_INSTANCE = 'PRODUCT_INSTANCE'
+export const PRODUCTS = 'PRODUCTS'
+export const PRODUCT = 'PRODUCT'

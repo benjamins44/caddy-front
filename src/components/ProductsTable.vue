@@ -6,8 +6,8 @@
       v-model="search">
     </el-input>
     <el-table
-      :data="this.productInstances"
-      v-on:cell-click="selectProductInstance"
+      :data="this.products"
+      v-on:cell-click="selectproduct"
       style="width: 100%">
       <el-table-column
         class-name="pointer"
@@ -25,7 +25,7 @@ import { mapState } from 'vuex'
 import * as types from '../store/mutation-types'
 
 export default {
-    name: 'product-instances-table',
+    name: 'products-table',
     data() {
       return {
         search: ''
@@ -33,23 +33,23 @@ export default {
     },
     computed: {
       ...mapState({
-          productInstances: state => state.productInstances.productInstances,
+          products: state => state.products.products,
       })
     },
     mounted() {
-      this.$store.dispatch('loadAllProductInstances')
+      this.$store.dispatch('loadAllProducts')
     },
     methods: {
       searchChanged(value) {
         if (!this.search) {
-          this.$store.dispatch('loadAllProductInstances')
+          this.$store.dispatch('loadAllProducts')
         }
         else if (this.search && this.search.length > 2) {
-          this.$store.dispatch('loadAllProductInstancesByLabel', this.search)
+          this.$store.dispatch('loadAllProductsByLabel', this.search)
         }
       },
-      selectProductInstance(productInstance) {
-        this.$store.dispatch('selectProductInstance', productInstance.id)
+      selectproduct(product) {
+        this.$store.dispatch('selectProduct', product.id)
       }
     }
   }

@@ -10,12 +10,13 @@
       fixed
       app
     >
-     <router-view></router-view>
+     
       <v-list>
         <v-list-tile
           value="true"
           v-for="(item, i) in items"
           :key="i"
+          v-on:click="changeMenu(item.navigation)"
         >
           <v-list-tile-action>
             <v-icon v-html="item.icon"></v-icon>
@@ -51,17 +52,22 @@
 
     <!-- Main page -->
     <v-content>
-
+       <router-view></router-view>
     </v-content>
 
 
     <!-- Drawer -->
     <v-navigation-drawer
-      temporary
-      :right="right"
+      right
       v-model="rightDrawer"
       fixed
       app
+
+      :mini-variant="miniVariant"
+      :clipped="clipped"
+      enable-resize-watcher
+
+      
     >
       <v-list>
         <!--v-list-tile @click="right = !right">
@@ -70,7 +76,9 @@
           </v-list-tile-action>
           <v-list-tile-title>Switch drawer (click me)</v-list-tile-title>
         </v-list-tile-->
-        <product-instances-table></product-instances-table>
+        
+        <router-view name="drawer"></router-view>
+        
       </v-list>
     </v-navigation-drawer>
     <!-- footer -->
@@ -81,12 +89,12 @@
 </template>
 
 <script>
-import ProductInstancesTable from './components/ProductInstancesTable'
+import baseProducts from '../images/base-products.png'
 
 export default {
   name: 'App',
   components: {
-    ProductInstancesTable
+
   },
   data () {
     return {
@@ -94,17 +102,27 @@ export default {
       drawer: true,
       fixed: false,
       items: [{
-        icon: 'bubble_chart',
-        title: 'Inspire'
+        icon: 'fas fa-database',
+        title: 'Base produits',
+        navigation: '/base-products'
+      },
+      {
+        icon: 'fas fa-shopping-cart',
+        title: 'Mes produits',
+        navigation: '/my-products'
       }],
       miniVariant: false,
-      right: true,
       rightDrawer: false,
       title: 'Vuetify.js'
     }
   },
-  mounted() {
-    this.$store.dispatch('loadAllProductInstances')
+  methods: {
+    changeMenu(navigation) {
+      this.$router.push(navigation)
+    }
   }
 }
 </script>
+<style>
+
+</style>

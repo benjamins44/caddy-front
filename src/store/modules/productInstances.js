@@ -3,7 +3,8 @@ import * as types from '../mutation-types'
 
 // initial state
 const state = {
-    productInstances: []
+    productInstances: [],
+    productInstanceSelected: {},
 }
 
 // actions
@@ -24,6 +25,32 @@ const actions = {
                 })
             })
     },
+    selectProductInstance( { commit }, id) {
+        productInstancesAPI.getProductInstancesById(id)
+            .then( (datas) => {
+                commit(types.PRODUCT_INSTANCE, {
+                    datas
+                })
+            })
+    },
+    refreshProductInstance( { commit }, { id, openFoodFactId } ) {
+        productInstancesAPI.getRefreshProductInstancesById(id, openFoodFactId)
+            .then( (datas) => {
+                commit(types.PRODUCT_INSTANCE, {
+                    datas
+                });
+                dispatchEvent('loadAllProductInstances');
+            })
+    },
+    udpateProductInstance( { commit },  productInstance  ) {
+        productInstancesAPI.updateProductInstances(productInstance)
+            .then( (datas) => {
+                commit(types.PRODUCT_INSTANCE, {
+                    datas
+                });
+                this.dispatch('loadAllProductInstances');
+            })
+    },
 
 }
 
@@ -33,7 +60,12 @@ const mutations = {
         datas
     }) {
         state.productInstances = datas
-    }
+    },
+    [types.PRODUCT_INSTANCE](state, {
+        datas
+    }) {
+        state.productInstanceSelected = datas
+    }    
 }
 
 export default {

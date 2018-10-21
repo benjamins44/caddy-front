@@ -4,60 +4,48 @@ const BASE_URL = 'http://192.168.1.24:8080'
 
 export default {
     // return all products instance
-    getProductInstances() {
+    getProducts() {
         const http = axios.create({
             baseURL: BASE_URL
         })
 
-        return http.get('/productInstances').then(result =>
+        return http.get('/products').then(result =>
             result.data
         ).catch(err => {
             return err
         })
     },
     // return all products instance
-    getProductInstancesByLabel(label) {
+    getProductsByLabel(label) {
         const http = axios.create({
             baseURL: BASE_URL
         })
 
-        return http.get(`/productInstances/query?label=${label}`).then(result =>
+        return http.get(`/products/query?label=${label}`).then(result =>
             result.data
         ).catch(err => {
             return err
         })
     },
     // return products instance by id
-    getProductInstancesById(id) {
+    getProductsById(id) {
         const http = axios.create({
             baseURL: BASE_URL
         })
 
-        return http.get(`/productInstances/${id}`).then(result =>
-            result.data
-        ).catch(err => {
-            return err
-        })
-    },
-    // refresh and return products instance by id
-    getRefreshProductInstancesById(id, openFoodFactId) {
-        const http = axios.create({
-            baseURL: BASE_URL
-        })
-
-        return http.get(`/productInstances/${id}/query?refresh=true&ean=${openFoodFactId}`).then(result =>
+        return http.get(`/products/${id}`).then(result =>
             result.data
         ).catch(err => {
             return err
         })
     },
     // update products instance by id
-    updateProductInstances(productInstance) {
+    updateProducts(product) {
         const http = axios.create({
             baseURL: BASE_URL
         })
 
-        return http.put(`/productInstances/${productInstance.id}`, productInstance).then(result =>
+        return http.put(`/products/${product.id}`, product).then(result =>
             result.data
         ).catch(err => {
             return err
