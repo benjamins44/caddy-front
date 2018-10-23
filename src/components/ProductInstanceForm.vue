@@ -1,13 +1,42 @@
 <template>
 <div class="middle row col-md-12">
-  <div class="card col-md-8">
+ <div class="card col-md-10">
+    <div class="card-body">
+      <div class="row col-md-12">
+         <div class="col-md-2 middle">
+          <p-image :url="productInstance.image" class="imageProduct" />
+        </div>
+         <div class="column col-md-10">
+          <h5>
+            {{ productInstance.label }}
+          </h5>
+          <h6>
+            {{ productInstance.id }}
+          </h6>
+          <div class="row col-md-12 right">
+             <div class="col-md-7">
+             </div>
+            <div class="col-md-3">
+              <nutriscore :letter="productInstance.nutriscore" class="imageNova"></nutriscore>
+            </div>
+
+            <div class="col-md-2">
+              <nova :score="productInstance.nova" class="imageNova"></nova>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+ </div>
+
+  <div class="card col-md-10">
     <div class="card-body">
       <h2 class="card-title"> Informations </h2>
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
           <div class="form-group">
-            <label for="indentifiant">Identifiant</label>
-            <input type="Number" v-model="productInstance.id" class="form-control col-sm-6" id="indentifiant" disabled placeholder="Id">
+            <label for="identifiant">Identifiant</label>
+            <input type="Number" v-model="productInstance.id" class="form-control col-sm-6" id="identifiant" disabled placeholder="Id">
           </div>
 
           <div class="form-group">
@@ -54,33 +83,19 @@
 
         </div>
 
-        <div class="col-md-6">
-          <div class="col-md-12 middle">
-            <p-image :url="productInstance.image" class="imageProduct" />
-          </div>
-          
-          <div class="row col-md-12">
-            <div class="form-group col-md-9">
-              <nutriscore :letter="productInstance.nutriscore"></nutriscore>
-            </div>
-
-            <div class="form-group col-md-3">
-              <nova :score="productInstance.nova" class="imageNova"></nova>
-            </div>
-          </div>
-        </div>
+        
       </div>
     </div>
   </div>
 
-  <div v-for="productShop of productInstance.productShops" :key="productShop.id" class="card col-md-8">
+  <div v-for="productShop of productInstance.productShops" :key="productShop.id" class="card col-md-10">
     <div class="card-body">
       <img :src="imageCoursesU" class="logo">
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
-            <label for="indentifiant">Identifiant</label>
-            <input type="Number" v-model="productShop.id" class="form-control col-sm-6" id="indentifiant" placeholder="Id">
+            <label for="identifiant">Identifiant</label>
+            <input type="Number" v-model="productShop.id" class="form-control col-sm-6" id="identifiant" placeholder="Id">
           </div>
 
           <div class="form-group">
@@ -92,6 +107,10 @@
           <p-image :url="productShop.url" class="imageProduct" />
         </div>
       </div>
+       <div class="form-group">
+          <label for="image">Url image</label>
+          <input type="String" v-model="productShop.url" class="form-control" id="image" placeholder="http://...">
+        </div>
     </div>
   </div>
     
@@ -109,7 +128,7 @@ import Nutriscore from "./Nutriscore";
 import Nova from "./Nova";
 import PImage from "./PImage";
 
-import imgCoursesU from '../../images/coursesu.png'
+import imgCoursesU from "../../images/coursesu.png";
 
 export default {
   name: "product-instance-form",
@@ -130,12 +149,14 @@ export default {
   },
   methods: {
     refresh() {
-      this.$store.dispatch('refreshProductInstance', { id:  this.productInstance.id, openFoodFactId :this.productInstance.openFoodFactId } )
+      this.$store.dispatch("refreshProductInstance", {
+        id: this.productInstance.id,
+        openFoodFactId: this.productInstance.openFoodFactId
+      });
     },
     update() {
-      this.$store.dispatch('udpateProductInstance', this.productInstance )
+      this.$store.dispatch("udpateProductInstance", this.productInstance);
     }
-
   }
 };
 </script>
@@ -148,15 +169,15 @@ export default {
 }
 
 img.imageProduct {
-  height: 10em;
+  height: 6em;
 }
-.imageNova {
-  height: 8em;
+img.imageNova {
+  height: 4em;
 }
 img.logo {
   height: 6em;
 }
 div.card {
-  margin-bottom: 1em
+  margin-bottom: 1em;
 }
 </style>
