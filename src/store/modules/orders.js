@@ -26,7 +26,7 @@ const actions = {
             })
     },
     updateOrder( { commit },  order  ) {
-        ordersAPI.updateOrders(order)
+        ordersAPI.updateOrder(order)
             .then( (datas) => {
                 commit(types.ORDER, {
                     datas

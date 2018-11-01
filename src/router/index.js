@@ -7,6 +7,7 @@ import ProductsTable from "../components/ProductsTable";
 import ProductsStatistiquesTable from "../components/ProductsStatistiquesTable";
 import OrderForm from "../components/OrderForm";
 import OrdersTable from "../components/OrdersTable";
+import PreOrderForm from "../components/PreOrderForm";
 
 Vue.use(Router);
 
@@ -62,6 +63,13 @@ export default new Router({
       components: {
         default: OrderForm,
         drawer: OrdersTable
+      }
+    },
+    {
+      path: "/my-preorder",
+      components: {
+        default: PreOrderForm,
+        drawer: null
       }
     }
   ]

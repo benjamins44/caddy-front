@@ -29,7 +29,7 @@ export default {
         return err;
       });
   },
-  // return all preOrders of a customer
+  // prepare preOrder
   prepareOrder(customer) {
     const http = axios.create({
       baseURL: BASE_URL
@@ -42,5 +42,43 @@ export default {
         return err;
       });
   },
+  // order preOrder
+  orderPreOrder(preOrder) {
+    const http = axios.create({
+      baseURL: BASE_URL
+    });
+
+    return http
+      .get(`/preorders/${preOrder.id}/order`)
+      .then(result => result.data)
+      .catch(err => {
+        return err;
+      });
+  },
+  // update products instance by id
+  updatePreOrder(preOrder) {
+    const http = axios.create({
+      baseURL: BASE_URL
+    });
+
+    return http
+      .put(`/preorders/${preOrder.id}`, preOrder)
+      .then(result => result.data)
+      .catch(err => {
+        return err;
+      });
+  },
+  getLastPreOrder(customer) {
+    const http = axios.create({
+      baseURL: BASE_URL
+    });
+
+    return http
+      .get(`/preorders/${customer}/last`)
+      .then(result => result.data)
+      .catch(err => {
+        return err;
+      });
+  }
 
 };

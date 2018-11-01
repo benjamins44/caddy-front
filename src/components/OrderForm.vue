@@ -46,16 +46,6 @@
             prop="quantity"
             >
         </el-table-column>
-         <el-table-column
-          fixed="right"
-          width="100"
-          >
-          <template slot-scope="scope">
-            <el-tooltip content="Ne plus proposer" placement="bottom">
-              <v-icon @click="abandonProduct(scope.$index, scope.row)" class="trash">fa-trash</v-icon>
-            </el-tooltip>
-          </template>
-        </el-table-column>
       </el-table>
     </div>
   </div>

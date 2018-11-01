@@ -47,6 +47,8 @@ export default {
     const id = this.$route.params.id;
     if (id) {
       this.init = true;
+    } else {
+      this.selectOrder(newOrder[0]);
     }
   },
   computed: {
@@ -60,13 +62,13 @@ export default {
   watch: {
     myOrders(newOrder, oldOrder) {
       if (!this.init && newOrder && newOrder.length > 0) {
-        this.selectorder(newOrder[0]);
+        this.selectOrder(newOrder[0]);
         this.init = true;
       }
     },
     "$route.params.id"(id) {
       if (!id) {
-        this.selectorder(this.orders[0]);
+        this.selectOrder(this.orders[0]);
         this.init = true;
       }
     }
@@ -79,7 +81,7 @@ export default {
         this.$store.dispatch("loadAllOrdersByLabel", { customer: "olivia.benjamin.corre@gmail.com", search: this.search });
       }
     },
-    selectorder(order) {
+    selectOrder(order) {
       const navigation = `/my-orders/${order.id}`;
       this.$router.push(navigation);
     }

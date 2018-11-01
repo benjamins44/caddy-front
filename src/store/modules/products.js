@@ -40,7 +40,7 @@ const actions = {
                 commit(types.PRODUCT, {
                     datas
                 });
-                this.dispatch('loadAllProducts');
+                this.dispatch('calculateStats');
                 Message({
                     message: 'Le produit a été mis à jour.',
                     type: 'info'

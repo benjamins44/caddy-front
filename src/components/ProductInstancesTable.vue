@@ -28,21 +28,24 @@ export default {
   data() {
     return {
       search: "",
-      init: false
+      init: false,
     };
   },
   computed: {
     ...mapState({
-      productInstances: state => state.productInstances.productInstances
+      productInstances: state => state.productInstances.productInstances,
     }),
     myProductsInstance() {
       return this.productInstances;
     }
   },
   mounted() {
+    console.log('mounted');
     const id = this.$route.params.id;
     if (id) {
       this.init = true;
+    } else {
+      this.selectProductInstance(this.productInstances[0]);
     }
   },
   watch: {
@@ -54,10 +57,10 @@ export default {
     },
     "$route.params.id"(id) {
       if (!id) {
-        this.selectproduct(this.productInstances[0]);
+        this.selectProductInstance(this.productInstances[0]);
         this.init = true;
       }
-    }
+    },
   },
   methods: {
     searchChanged(value) {

@@ -34,6 +34,8 @@ export default {
     const id = this.$route.params.id;
     if (id) {
       this.init = true;
+    } else {
+      this.selectProduct(this.products[0]);
     }
   },
   computed: {
@@ -47,13 +49,13 @@ export default {
   watch: {
     myProducts(newProduct, oldProduct) {
       if (!this.init && newProduct && newProduct.length > 0) {
-        this.selectproduct(newProduct[0]);
+        this.selectProduct(newProduct[0]);
         this.init = true;
       }
     },
     "$route.params.id"(id) {
       if (!id) {
-        this.selectproduct(this.products[0]);
+        this.selectProduct(this.products[0]);
         this.init = true;
       }
     }
@@ -66,7 +68,7 @@ export default {
         this.$store.dispatch("loadAllProductsByLabel", this.search);
       }
     },
-    selectproduct(product) {
+    selectProduct(product) {
       const navigation = `/my-products/${product.id}`;
       this.$router.push(navigation);
     }

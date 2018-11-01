@@ -1,17 +1,16 @@
 <template>
-  <div>
+  <div class="middle">
     <el-dialog
       title="Confirmaton"
-      :visible.sync="dialogVisible"
+      :visible.sync="dialogAbandonVisible"
       width="30%"
     >
     <span>Souhaitez-vous vraiment abandonner l'utilisation de ce produit ?</span>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="dialogVisible = false">Annuler</el-button>
+      <el-button @click="dialogAbandonVisible = false">Annuler</el-button>
       <el-button type="primary" @click="confirmAbandonProduct()">Confirmer</el-button>
     </span>
   </el-dialog>
-
 
   <div class="card col-md-10">
     <div class="card-body">
@@ -64,6 +63,9 @@
             <el-tooltip content="Ne plus proposer" placement="bottom" v-if="scope.row.orderStatus !== 'ABANDONNED'">
               <v-icon @click="abandonProduct(scope.$index, scope.row)" class="trash">fa-ban</v-icon>
             </el-tooltip>
+            <el-tooltip content="Reproposer" placement="bottom" v-if="scope.row.orderStatus === 'ABANDONNED'">
+              <v-icon @click="enableProduct(scope.$index, scope.row)" class="trash">fa-thumbs-up</v-icon>
+            </el-tooltip>
           </template>
         </el-table-column>
       </el-table>
@@ -85,7 +87,7 @@ export default {
   },
   data() {
     return {
-       dialogVisible: false,
+       dialogAbandonVisible: false,
        currentProduct:{},
     };
   },
@@ -136,13 +138,16 @@ export default {
     },
     abandonProduct(index, product) {
       this.currentProduct = product;
-      this.dialogVisible = true;
+      this.dialogAbandonVisible = true;
     },
     confirmAbandonProduct() {
       this.currentProduct.status = 'ABANDONNED';
-      this.currentProduct.orderStatus = 'ABANDONNED';
       this.$store.dispatch("updateProduct", this.currentProduct);
-      this.dialogVisible = false;
+      this.dialogAbandonVisible = false;
+    },
+    enableProduct(index, product) {
+      product.status = 'USED';
+      this.$store.dispatch("updateProduct", product);
     }
   }
 };

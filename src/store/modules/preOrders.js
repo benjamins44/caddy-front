@@ -10,10 +10,10 @@ const state = {
 
 // actions
 const actions = {
-    loadAllPreOrders( { commit }, customer) {
-        preOrdersAPI.getOrders(customer)
+    getLastPreOrder( { commit }, customer) {
+        preOrdersAPI.getLastPreOrder(customer)
             .then( (datas) => {
-                commit(types.ORDERS, {
+                commit(types.PRE_ORDER, {
                     datas
                 })
             })
@@ -21,29 +21,46 @@ const actions = {
     selectPreOrder( { commit }, { customer, id } ) {
         preOrdersAPI.getOrdersById(customer, id)
             .then( (datas) => {
-                commit(types.ORDER, {
+                commit(types.PRE_ORDER, {
                     datas
                 })
             })
     },
-    updatePreOrder( { commit },  order  ) {
-        preOrdersAPI.updateOrders(order)
+    updatePreOrder( { commit },  { preOrder, customer } ) {
+        preOrdersAPI.updatePreOrder(preOrder)
             .then( (datas) => {
-                commit(types.ORDER, {
+                commit(types.PRE_ORDER, {
                     datas
                 });
-                this.dispatch('loadAllPreOrders');
+                this.dispatch('getLastPreOrder', customer);
+                Message({
+                    message: 'Le panier a été mise à jour.',
+                    type: 'info'
+                });
+            })
+    },
+    orderPreOrder( { commit },  { preOrder, customer } ) {
+        preOrdersAPI.orderPreOrder(preOrder)
+            .then( (datas) => {
+                commit(types.PRE_ORDER, {
+                    datas
+                });
+                this.dispatch('getLastPreOrder', customer);
+                Message({
+                    message: 'La panier a été compléter sur www.coursesu.com',
+                    type: 'success'
+                });
             })
     },
     preparePreOrder( { commit }, customer ) {
         preOrdersAPI.prepareOrder(customer)
             .then( (datas) => {
-                commit(types.ORDER, {
+                commit(types.PRE_ORDER, {
                     datas
                 });
-                this.dispatch('loadAllPreOrders');
+                this.dispatch('getLastPreOrder', customer);
                 Message({
-                    message: 'Le précommande a été faite.',
+                    message: 'Le panier a été faite.',
                     type: 'info'
                 });
             })
