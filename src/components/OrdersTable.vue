@@ -6,13 +6,26 @@
       v-model="search">
     </el-input>
     <el-table
-      :data="this.products"
-      v-on:cell-click="selectproduct"
+      :data="this.orders"
+      :default-sort = "{prop: 'date', order: 'descending'}"
+      v-on:cell-click="selectorder"
       style="width: 100%">
       <el-table-column
         class-name="pointer"
-        prop="label"
-        label="Produits"
+        prop="id"
+        label="Commande"
+        >
+      </el-table-column>
+      <el-table-column
+        class-name="pointer"
+        prop="date"
+        label="Date"
+        >
+      </el-table-column>
+      <el-table-column
+        class-name="pointer"
+        prop="sign"
+        label="Magasin"
         >
       </el-table-column>
     </el-table>
@@ -23,7 +36,7 @@
 import { mapState } from "vuex";
 
 export default {
-  name: "products-table",
+  name: "orders-table",
   data() {
     return {
       search: "",
@@ -38,22 +51,22 @@ export default {
   },
   computed: {
     ...mapState({
-      products: state => state.products.products
+      orders: state => state.orders.orders
     }),
-    myProducts() {
-      return this.products;
+    myOrders() {
+      return this.orders;
     }
   },
   watch: {
-    myProducts(newProduct, oldProduct) {
-      if (!this.init && newProduct && newProduct.length > 0) {
-        this.selectproduct(newProduct[0]);
+    myOrders(newOrder, oldOrder) {
+      if (!this.init && newOrder && newOrder.length > 0) {
+        this.selectorder(newOrder[0]);
         this.init = true;
       }
     },
     "$route.params.id"(id) {
       if (!id) {
-        this.selectproduct(this.products[0]);
+        this.selectorder(this.orders[0]);
         this.init = true;
       }
     }
@@ -61,13 +74,13 @@ export default {
   methods: {
     searchChanged(value) {
       if (!this.search) {
-        this.$store.dispatch("loadAllProducts");
+        this.$store.dispatch("loadAllOrders", "olivia.benjamin.corre@gmail.com");
       } else if (this.search && this.search.length > 2) {
-        this.$store.dispatch("loadAllProductsByLabel", this.search);
+        this.$store.dispatch("loadAllOrdersByLabel", { customer: "olivia.benjamin.corre@gmail.com", search: this.search });
       }
     },
-    selectproduct(product) {
-      const navigation = `/my-products/${product.id}`;
+    selectorder(order) {
+      const navigation = `/my-orders/${order.id}`;
       this.$router.push(navigation);
     }
   }

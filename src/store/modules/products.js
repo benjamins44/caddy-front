@@ -1,5 +1,6 @@
 import productsAPI from '../../api/productsABS'
 import * as types from '../mutation-types'
+import { Message } from 'element-ui';
 
 // initial state
 const state = {
@@ -33,16 +34,32 @@ const actions = {
                 })
             })
     },
-    udpateProduct( { commit },  product  ) {
+    updateProduct( { commit },  product  ) {
         productsAPI.updateProducts(product)
             .then( (datas) => {
                 commit(types.PRODUCT, {
                     datas
                 });
-                this.dispatch('loadAllproducts');
+                this.dispatch('loadAllProducts');
+                Message({
+                    message: 'Le produit a été mis à jour.',
+                    type: 'info'
+                });
             })
     },
-
+    calculateStats( { commit }) {
+        productsAPI.calculateStats()
+            .then( (datas) => {
+                commit(types.PRODUCTS, {
+                    datas
+                });
+                this.dispatch('loadAllProducts');
+                Message({
+                    message: 'Le calcul des statistiques est terminé.',
+                    type: 'success'
+                });
+            })
+    },
 }
 
 // mutations

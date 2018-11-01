@@ -1,5 +1,6 @@
 import productInstancesAPI from '../../api/productInstancesABS'
 import * as types from '../mutation-types'
+import { Message } from 'element-ui';
 
 // initial state
 const state = {
@@ -42,13 +43,17 @@ const actions = {
                 dispatchEvent('loadAllProductInstances');
             })
     },
-    udpateProductInstance( { commit },  productInstance  ) {
+    updateProductInstance( { commit },  productInstance  ) {
         productInstancesAPI.updateProductInstances(productInstance)
             .then( (datas) => {
                 commit(types.PRODUCT_INSTANCE, {
                     datas
                 });
                 this.dispatch('loadAllProductInstances');
+                Message({
+                    message: 'Le produit a été mis à jour.',
+                    type: 'info'
+                });
             })
     },
 

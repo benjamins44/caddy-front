@@ -4,7 +4,7 @@
     <v-navigation-drawer
       persistent
       :mini-variant="miniVariant"
-      :clipped="clipped"
+      clipped
       v-model="drawer"
       enable-resize-watcher
       fixed
@@ -33,17 +33,18 @@
       app
       :clipped-left="clipped"
     >
-      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-btn icon @click.stop="miniVariant = !miniVariant">
         <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"></v-icon>
       </v-btn>
-      <v-btn icon @click.stop="clipped = !clipped">
-        <v-icon>web</v-icon>
-      </v-btn>
-      <v-btn icon @click.stop="fixed = !fixed">
-        <v-icon>web</v-icon>
-      </v-btn>
       <v-toolbar-title v-text="title"></v-toolbar-title>
+
+      <el-tooltip content="Calculer les statistiques" placement="bottom">
+        <v-btn icon @click="calculateStats()">
+          <v-icon  color="primary" dark>fa-calculator</v-icon>
+        </v-btn>
+      </el-tooltip>
+
+    
       <v-spacer></v-spacer>
       <v-btn icon @click.stop="rightDrawer = !rightDrawer">
         <v-icon>menu</v-icon>
@@ -60,69 +61,75 @@
     <v-navigation-drawer
       right
       v-model="rightDrawer"
-      fixed
       app
-
       :mini-variant="miniVariant"
-      :clipped="clipped"
+      clipped
+      light
       enable-resize-watcher
-
-      
     >
-      <v-list>
-        <!--v-list-tile @click="right = !right">
-          <v-list-tile-action>
-            <v-icon>compare_arrows</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-title>Switch drawer (click me)</v-list-tile-title>
-        </v-list-tile-->
-        
+      <v-list>     
         <router-view name="drawer"></router-view>
-        
       </v-list>
     </v-navigation-drawer>
     <!-- footer -->
-    <v-footer :fixed="fixed" app>
-      <span>&copy; 2018 - Author Benjamin Corré</span>
+    <v-footer fixed app>
+      <span>&copy; 2018 - Auteur Benjamin Corré</span>
     </v-footer>
   </v-app>
 </template>
 
 <script>
-import baseProducts from '../images/base-products.png'
+import baseProducts from "../images/base-products.png";
 
 export default {
-  name: 'App',
-  components: {
-
-  },
-  data () {
+  name: "App",
+  components: {},
+  data() {
     return {
       clipped: false,
       drawer: true,
       fixed: false,
-      items: [{
-        icon: 'fas fa-database',
-        title: 'Base produits',
-        navigation: '/base-products'
-      },
-      {
-        icon: 'fas fa-shopping-cart',
-        title: 'Mes produits',
-        navigation: '/my-products'
-      }],
+      items: [
+        {
+          icon: "fas fa-database",
+          title: "Base produits",
+          navigation: "/base-products"
+        },
+        {
+          icon: "fas fa-utensils",
+          title: "Mes produits",
+          navigation: "/my-products"
+        },
+        {
+          icon: "fas fa-shopping-basket",
+          title: "Mes commandes",
+          navigation: "/my-orders"
+        },
+        {
+          icon: "fas fa-chart-line",
+          title: "Statistiques",
+          navigation: "/stat-products"
+        }
+      ],
       miniVariant: false,
       rightDrawer: false,
-      title: 'Vuetify.js'
-    }
+      title: "Mon caddy de courses"
+    };
   },
   methods: {
     changeMenu(navigation) {
-      this.$router.push(navigation)
+      this.$router.push(navigation);
+    },
+    calculateStats() {
+      this.$store.dispatch("calculateStats");
     }
+  },
+  mounted() {
+    this.$store.dispatch("loadAllProductInstances");
+    this.$store.dispatch("loadAllProducts");
+    this.$store.dispatch("loadAllOrders", "olivia.benjamin.corre@gmail.com");
   }
-}
+};
 </script>
 <style>
-
 </style>

@@ -54,5 +54,18 @@ export default {
       .catch(err => {
         return err;
       });
-  }
+  },
+  // return all products instance
+  calculateStats() {
+    const http = axios.create({
+      baseURL: BASE_URL
+    });
+
+    return http
+      .get("/products/stats")
+      .then(result => result.data)
+      .catch(err => {
+        return err;
+      });
+  },
 };

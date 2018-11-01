@@ -20,45 +20,65 @@
 </template>
 
 <script>
-
-import { mapState } from 'vuex'
-import * as types from '../store/mutation-types'
+import { mapState } from "vuex";
+import * as types from "../store/mutation-types";
 
 export default {
-    name: 'product-instances-table',
-    data() {
-      return {
-        search: ''
+  name: "product-instances-table",
+  data() {
+    return {
+      search: "",
+      init: false
+    };
+  },
+  computed: {
+    ...mapState({
+      productInstances: state => state.productInstances.productInstances
+    }),
+    myProductsInstance() {
+      return this.productInstances;
+    }
+  },
+  mounted() {
+    const id = this.$route.params.id;
+    if (id) {
+      this.init = true;
+    }
+  },
+  watch: {
+    myProductsInstance(newProduct, oldProduct) {
+      if (!this.init && newProduct && newProduct.length > 0) {
+        this.selectProductInstance(newProduct[0]);
+        this.init = true;
       }
     },
-    computed: {
-      ...mapState({
-          productInstances: state => state.productInstances.productInstances,
-      })
-    },
-    mounted() {
-      this.$store.dispatch('loadAllProductInstances')
-    },
-    methods: {
-      searchChanged(value) {
-        if (!this.search) {
-          this.$store.dispatch('loadAllProductInstances')
-        }
-        else if (this.search && this.search.length > 2) {
-          this.$store.dispatch('loadAllProductInstancesByLabel', this.search)
-        }
-      },
-      selectProductInstance(productInstance) {
-        this.$store.dispatch('selectProductInstance', productInstance.id)
+    "$route.params.id"(id) {
+      if (!id) {
+        this.selectproduct(this.productInstances[0]);
+        this.init = true;
       }
     }
+  },
+  methods: {
+    searchChanged(value) {
+      if (!this.search) {
+        this.$store.dispatch("loadAllProductInstances");
+      } else if (this.search && this.search.length > 2) {
+        this.$store.dispatch("loadAllProductInstancesByLabel", this.search);
+      }
+    },
+    selectProductInstance(productInstance) {
+      const navigation = `/base-products/${productInstance.id}`;
+      this.$router.push(navigation);
+    }
   }
+};
 </script>
 <style>
-  .drawer {
-    padding: 0.5em;
-  }
-  .pointer {
-    cursor: pointer;
-  }
+.drawer {
+  padding: 0.5em;
+}
+.pointer {
+  cursor: pointer;
+}
 </style>

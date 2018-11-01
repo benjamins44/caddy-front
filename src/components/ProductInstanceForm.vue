@@ -142,10 +142,23 @@ export default {
       imageCoursesU: imgCoursesU
     };
   },
+  mounted() {
+    const id = this.$route.params.id;
+    if (id) {
+      this.$store.dispatch("selectProductInstance", id);
+    }
+  },
   computed: {
     ...mapState({
       productInstance: state => state.productInstances.productInstanceSelected
     })
+  },
+  watch: {
+    "$route.params.id"(id) {
+      if (id) {
+        this.$store.dispatch("selectProductInstance", id);
+      }
+    }
   },
   methods: {
     refresh() {
@@ -155,7 +168,7 @@ export default {
       });
     },
     update() {
-      this.$store.dispatch("udpateProductInstance", this.productInstance);
+      this.$store.dispatch("updateProductInstance", this.productInstance);
     }
   }
 };
