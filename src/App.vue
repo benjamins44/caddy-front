@@ -44,6 +44,11 @@
         </v-btn>
       </el-tooltip>
 
+      <el-tooltip content="Préparer la prochaine commande" placement="bottom">
+        <v-btn icon @click="preparePreOrder()">
+          <v-icon  color="primary" dark>shop</v-icon>
+        </v-btn>
+      </el-tooltip>
     
       <v-spacer></v-spacer>
       <v-btn icon @click.stop="rightDrawer = !rightDrawer">
@@ -122,7 +127,10 @@ export default {
     },
     calculateStats() {
       this.$store.dispatch("calculateStats");
-    }
+    },
+    preparePreOrder() {
+      this.$store.dispatch("preparePreOrder", "olivia.benjamin.corre@gmail.com");
+    },
   },
   mounted() {
     this.$store.dispatch("loadAllProductInstances");
