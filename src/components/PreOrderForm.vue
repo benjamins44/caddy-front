@@ -30,8 +30,8 @@
               >
               <template slot-scope="scope">
                 <div class="row col-md-12 cell-select" @click="selectproduct(scope.row)">
-                  <p-image class="col-md-2 thumbnail" :url="scope.row.image"  />
-                  <div class="col-md-9">{{ scope.row.label }}</div>
+                  <p-image class="col-md-2 thumbnail" :url="scope.row.favorite.image"  />
+                  <div class="col-md-9">{{ scope.row.favorite.label }}</div>
                 </div>
               </template>  
             </el-table-column>

@@ -7,6 +7,7 @@
     </el-input>
     <el-table
       :data="this.productInstances"
+      empty-text="Merci de rechercher"
       v-on:cell-click="selectProductInstance"
       style="width: 100%">
       <el-table-column
@@ -64,15 +65,15 @@ export default {
   },
   methods: {
     searchChanged(value) {
-      if (!this.search) {
-        this.$store.dispatch("loadAllProductInstances");
-      } else if (this.search && this.search.length > 2) {
+      if (this.search && this.search.length > 2) {
         this.$store.dispatch("loadAllProductInstancesByLabel", this.search);
       }
     },
     selectProductInstance(productInstance) {
-      const navigation = `/base-products/${productInstance.id}`;
-      this.$router.push(navigation);
+      if (productInstance) {
+        const navigation = `/base-products/${productInstance.id}`;
+        this.$router.push(navigation);
+      }
     }
   }
 };

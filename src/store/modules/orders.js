@@ -1,5 +1,6 @@
 import ordersAPI from '../../api/ordersABS'
 import * as types from '../mutation-types'
+import { Message } from 'element-ui';
 
 // initial state
 const state = {
@@ -31,9 +32,23 @@ const actions = {
                 commit(types.ORDER, {
                     datas
                 });
-                this.dispatch('loadAllorders');
+                this.dispatch('loadAllOrders');
             })
-    }
+    },
+    extractNewOrders( { commit } ) {
+        ordersAPI.extractNewOrders()
+            .then( (datas) => {
+                commit(types.ORDERS, {
+                    datas
+                });
+                this.dispatch('loadAllOrders');
+                Message({
+                    message: 'Les nouvelles commandes ont été extraites.',
+                    type: 'info'
+                });
+            })
+    },
+
 }
 
 // mutations

@@ -14,11 +14,11 @@
 
   <div class="card col-md-10">
     <div class="card-body">
-      <h2 class="card-title"> Statistiques </h2>
+      <h2 class="card-title"> Produits </h2>
       <el-table
         ref="items"
         :data="this.products"
-        :default-sort = "{prop: 'consumption.probalilityBuy', order: 'descending'}"
+        :default-sort = "{prop: 'favorite.foodScore.total', order: 'descending'}"
         :row-class-name="tableRowClassName"
         style="width: 100%">
          <el-table-column
@@ -27,45 +27,53 @@
         </el-table-column>
         <el-table-column
           label="Produit"
+          prop="favorite.foodScore.total"
           >
           <template slot-scope="scope">
             <div class="row col-md-12 cell-select" @click="selectproduct(scope.row)">
               <p-image class="col-md-2 thumbnail" :url="scope.row.favorite.image"  />
               <div class="col-md-9">{{ scope.row.favorite.label }}</div>
             </div>
+            <div class="middle">
+              <div class="row">
+                <additives-resume  :additives="scope.row.favorite.additives"></additives-resume>
+              </div>
+              <div class="row">
+                <nutriscore :letter="scope.row.favorite.nutriscore" class="imageNova"></nutriscore>
+                <nova :score="scope.row.favorite.nova" class="imageNova"></nova>
+              </div>
+            </div>
           </template>  
         </el-table-column>
         <el-table-column
-          label="Probabilité"
-          prop="consumption.probalilityBuy"
+          label="Proposition"
           >
           <template slot-scope="scope">
-          <el-progress :text-inside="true" :color="getStatus(scope.row.consumption.probalilityBuy)" :stroke-width="18" :percentage="getPercent(scope.row.consumption.probalilityBuy)"></el-progress>
+            <el-carousel height="25em" indicator-position="none" :autoplay="false" v-if="scope.row.bestSubstitutes.length > 0">
+              <el-carousel-item v-for="substitute in scope.row.bestSubstitutes" :key="substitute">
+                <div class="row col-md-12 cell-select" @click="selectproduct(substitute)">
+                  <p-image class="col-md-2 thumbnail" :url="substitute.image"  />
+                  <div class="col-md-9">{{ substitute.label }}</div>
+                </div>
+                <div class="middle">
+                  <div class="row">
+                    <additives-resume  :additives="substitute.additives"></additives-resume>
+                  </div>
+                  <div class="row">
+                    <nutriscore :letter="substitute.nutriscore" class="imageNova"></nutriscore>
+                    <nova :score="substitute.nova" class="imageNova"></nova>
+                  </div>
+                </div>
+              </el-carousel-item>
+            </el-carousel>
           </template>  
         </el-table-column>
-        <el-table-column
-            label="Quantité"
-            width="80"
-            prop="consumption.probalilityQuantityBuy"
-            >
-        </el-table-column>
-       <el-table-column
-            label="Nb semaines dernier achat"
-            width="80"
-            prop="consumption.nbWeekOfLastBuy"
-            >
-        </el-table-column>
+
          <el-table-column
           fixed="right"
           width="100"
           >
           <template slot-scope="scope">
-            <el-tooltip content="Ne plus proposer" placement="bottom" v-if="scope.row.orderStatus !== 'ABANDONNED'">
-              <v-icon @click="abandonProduct(scope.$index, scope.row)" class="trash">fa-ban</v-icon>
-            </el-tooltip>
-            <el-tooltip content="Reproposer" placement="bottom" v-if="scope.row.orderStatus === 'ABANDONNED'">
-              <v-icon @click="enableProduct(scope.$index, scope.row)" class="trash">fa-thumbs-up</v-icon>
-            </el-tooltip>
           </template>
         </el-table-column>
       </el-table>
@@ -78,12 +86,18 @@
 
 <script>
 import { mapState } from "vuex";
+import Nutriscore from "./Nutriscore";
+import Nova from "./Nova";
 import PImage from "./PImage";
+import AdditivesResume from "./AdditivesResume";
 
 export default {
-  name: "products-statistiques-table",
+  name: "products-better-eat-table",
   components: {
     PImage,
+    Nutriscore,
+    Nova,
+    AdditivesResume
   },
   data() {
     return {
@@ -97,33 +111,13 @@ export default {
     }),
   },
   methods: {
-    getPercent(percent) {
-      if (percent < 0) {
-        percent = 0;
-      }
-      return parseInt(percent * 100);
-    },
-    getStatus(percent) {
-      if (percent < 0) {
-        return '';
-      }
-      if (percent < 0.3) {
-        return 'rgba(245, 108, 108, 0.7)';
-      }
-      if (percent >= 0.3 && percent < 0.75) {
-        return 'rgba(142, 113, 199, 0.7)';
-      }
-
-      if (percent < 0.9) {
-        return 'orange';
-      }
-      return 'rgba(103, 194, 58, 0.7)';
-    },
+    
     selectproduct(product) {
       const navigation = `/my-products/${product.id}`;
       this.$router.push(navigation);
     },
     tableRowClassName({row, rowIndex}) {
+      /*
       if (row.orderStatus === 'NO_LONGER_PROPOSED') {
         return 'warning-row';
       } else if (row.orderStatus === 'ABANDONNED') {
@@ -132,7 +126,7 @@ export default {
         return 'success-row';
       } else if (row.orderStatus === 'NOT_ENOUGH_ORDERED') {
         return 'not-enough-ordered-row';
-      }
+      }*/
       
       return '';
     },
@@ -173,7 +167,5 @@ export default {
   .cell-select {
     cursor: pointer;
   }
-  div > i.fa-trash.fa {
-    
-  }
+
 </style>

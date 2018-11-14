@@ -3,40 +3,40 @@ import axios from "axios";
 const BASE_URL = "http://localhost:8080";
 
 export default {
-  // return all orders of a customer
-  getOrders(customer) {
+  // return all products instance
+  getProducts() {
     const http = axios.create({
       baseURL: BASE_URL
     });
 
     return http
-      .get(`/orders/${customer}`)
+      .get("/productsgrouping")
       .then(result => result.data)
       .catch(err => {
         return err;
       });
   },
-  // return a order by id of a customer
-  getOrdersById(customer, id) {
+  // return all products instance
+  getProductsByCategories(categories) {
     const http = axios.create({
       baseURL: BASE_URL
     });
 
     return http
-    .get(`/orders/${customer}/${id}`)
+      .get(`/productsgrouping/query?categories=${categories}`)
       .then(result => result.data)
       .catch(err => {
         return err;
       });
   },
-  // return a order by id of a customer
-  extractNewOrders() {
+  // return products instance by id
+  getProductsById(id) {
     const http = axios.create({
       baseURL: BASE_URL
     });
 
     return http
-    .get(`/orders/refresh`)
+      .get(`/productsgrouping/${id}`)
       .then(result => result.data)
       .catch(err => {
         return err;

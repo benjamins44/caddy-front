@@ -4,6 +4,7 @@ import productInstances from './modules/productInstances'
 import products from './modules/products'
 import orders from './modules/orders'
 import preOrders from './modules/preOrders'
+import productsGrouping from './modules/productsGrouping'
 
 Vue.use(Vuex)
 
@@ -12,7 +13,8 @@ const store = new Vuex.Store({
         productInstances,
         products,
         orders,
-        preOrders
+        preOrders,
+        productsGrouping
     }
 })
 

@@ -8,6 +8,7 @@ import ProductsStatistiquesTable from "../components/ProductsStatistiquesTable";
 import OrderForm from "../components/OrderForm";
 import OrdersTable from "../components/OrdersTable";
 import PreOrderForm from "../components/PreOrderForm";
+import ProductsBetterEatTable from "../components/ProductsBetterEatTable";
 
 Vue.use(Router);
 
@@ -47,6 +48,13 @@ export default new Router({
       path: "/stat-products",
       components: {
         default: ProductsStatistiquesTable,
+        drawer: null
+      }
+    },
+    {
+      path: "/better-eat-products",
+      components: {
+        default: ProductsBetterEatTable,
         drawer: null
       }
     },

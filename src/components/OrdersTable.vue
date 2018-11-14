@@ -8,7 +8,7 @@
     <el-table
       :data="this.orders"
       :default-sort = "{prop: 'date', order: 'descending'}"
-      v-on:cell-click="selectorder"
+      v-on:cell-click="selectOrder"
       style="width: 100%">
       <el-table-column
         class-name="pointer"
@@ -67,7 +67,7 @@ export default {
       }
     },
     "$route.params.id"(id) {
-      if (!id) {
+      if (!id && newOrder && newOrder.length > 0) {
         this.selectOrder(this.orders[0]);
         this.init = true;
       }

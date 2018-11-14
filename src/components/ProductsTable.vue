@@ -7,11 +7,12 @@
     </el-input>
     <el-table
       :data="this.products"
-      v-on:cell-click="selectproduct"
+      v-on:cell-click="selectProduct"
+      empty-text="Aucun produits"
       style="width: 100%">
       <el-table-column
         class-name="pointer"
-        prop="label"
+        prop="favorite.label"
         label="Produits"
         >
       </el-table-column>

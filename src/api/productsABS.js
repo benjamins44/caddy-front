@@ -43,13 +43,13 @@ export default {
       });
   },
   // update products instance by id
-  updateProducts(product) {
+  updateProductFavorite(product, favorite) {
     const http = axios.create({
       baseURL: BASE_URL
     });
 
     return http
-      .put(`/products/${product.id}`, product)
+      .patch(`/products/${product.id}`, favorite)
       .then(result => result.data)
       .catch(err => {
         return err;

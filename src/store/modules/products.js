@@ -47,6 +47,18 @@ const actions = {
                 });
             })
     },
+    updateProductFavorite( { commit },  { product, favorite }  ) {
+        productsAPI.updateProductFavorite(product, favorite)
+            .then( (datas) => {
+                commit(types.PRODUCT, {
+                    datas
+                });
+                Message({
+                    message: 'Le produit a été mis à jour.',
+                    type: 'info'
+                });
+            })
+    },
     calculateStats( { commit }) {
         productsAPI.calculateStats()
             .then( (datas) => {

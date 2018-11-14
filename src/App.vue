@@ -10,7 +10,7 @@
       fixed
       app
     >
-     
+    
       <v-list>
         <v-list-tile
           value="true"
@@ -41,6 +41,12 @@
       <v-spacer></v-spacer>
       <v-toolbar-title v-text="title"></v-toolbar-title>
       <v-spacer></v-spacer>
+      <el-tooltip content="Extraire les nouvelles commandes" placement="bottom">
+        <v-btn icon @click="extractNewOrders()">
+          <v-icon  color="primary" dark>fa-sync-alt</v-icon>
+        </v-btn>
+      </el-tooltip>
+
       <el-tooltip content="Calculer les statistiques" placement="bottom">
         <v-btn icon @click="calculateStats()">
           <v-icon  color="primary" dark>fa-calculator</v-icon>
@@ -110,6 +116,11 @@ export default {
       fixed: false,
       items: [
         {
+          icon: "perm_identity",
+          title: "Profil",
+          navigation: "/user"
+        },
+        {
           icon: "fas fa-database",
           title: "Base produits",
           navigation: "/base-products"
@@ -133,6 +144,11 @@ export default {
           icon: "shopping_basket",
           title: "Prochain panier",
           navigation: "/my-preorder"
+        },
+        {
+          icon: "fas fa-grin",
+          title: "Mieux manger",
+          navigation: "/better-eat-products"
         }
       ],
       miniVariant: false,
@@ -144,6 +160,9 @@ export default {
   methods: {
     changeMenu(navigation) {
       this.$router.push(navigation);
+    },
+    extractNewOrders() {
+      this.$store.dispatch("extractNewOrders");
     },
     calculateStats() {
       this.$store.dispatch("calculateStats");
@@ -164,7 +183,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch("loadAllProductInstances");
+    //this.$store.dispatch("loadAllProductInstances");
     this.$store.dispatch("loadAllProducts");
     this.$store.dispatch("loadAllOrders", "olivia.benjamin.corre@gmail.com");
     this.setRightDrawerDisplay(this.$route);

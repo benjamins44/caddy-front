@@ -81,6 +81,37 @@
               <input type="String" v-model="productInstance.image" class="form-control" id="image" placeholder="http://...">
             </div>
 
+            <div class="form-group">
+              <label for="ingredients">Liste d'ingrédients</label>
+               <ingredients-list id="ingredients" :ingredientsList="productInstance.ingredientsList"></ingredients-list>
+            </div>
+
+            <div class="form-group">
+              <label for="addtitives">Additifs</label>
+               <el-table
+                 empty-text="non indiqué"
+                :data="getAllAdditives(productInstance.additives)"
+                :row-class-name="additiveRowClassName"
+                :default-sort = "{prop: 'riskLevel', order: 'ascending'}"
+                style="width: 100%">
+                <el-table-column
+                  prop="code"
+                  label="Code"
+                  >
+                </el-table-column>
+                <el-table-column
+                  prop="label"
+                  label="Libellé"
+                  >
+                </el-table-column>
+                <el-table-column
+                  prop="risks"
+                  label="Risques"
+                  >
+                </el-table-column>
+              </el-table>
+            </div>
+
         </div>
 
         
@@ -127,6 +158,7 @@ import * as types from "../store/mutation-types";
 import Nutriscore from "./Nutriscore";
 import Nova from "./Nova";
 import PImage from "./PImage";
+import IngredientsList from "./IngredientsList";
 
 import imgCoursesU from "../../images/coursesu.png";
 
@@ -135,7 +167,8 @@ export default {
   components: {
     Nutriscore,
     Nova,
-    PImage
+    PImage,
+    IngredientsList
   },
   data() {
     return {
@@ -169,7 +202,29 @@ export default {
     },
     update() {
       this.$store.dispatch("updateProductInstance", this.productInstance);
-    }
+    },
+    getAllAdditives(additives) {
+      if (!additives) {
+        return;
+      }
+      let result = [];
+      for (let grpAdditive of additives) {
+        for (let additive of grpAdditive.additives) {
+          result.push(additive);
+        }
+      }
+      return result;
+    },
+    additiveRowClassName({row, rowIndex}) {
+      switch(row.riskLevel) {
+        case 1: return 'success-row';
+        case 2: return 'low-warning-row';
+        case 3: return 'middle-warning-row';
+        case 4: return 'warning-row';
+        case 5: return 'high-warning-row';
+      }
+      return 'success-row';
+    },
   }
 };
 </script>
@@ -185,7 +240,7 @@ img.imageProduct {
   height: 6em;
 }
 img.imageNova {
-  height: 4em;
+  height: 5em;
 }
 img.logo {
   height: 6em;
@@ -193,4 +248,14 @@ img.logo {
 div.card {
   margin-bottom: 1em;
 }
+.el-table .low-warning-row {
+  background: rgb(255, 255, 93);
+}
+.el-table .middle-warning-row {
+  background: rgb(253, 183, 52);
+}
+.el-table .high-warning-row {
+  background: rgb(210,00,10);
+}
+
 </style>

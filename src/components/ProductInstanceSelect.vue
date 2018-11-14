@@ -1,5 +1,12 @@
 <template>
-  <el-select v-model="productInstanceSelected" value-key="id" filterable placeholder="Sélectionnez l'instance">
+  <el-select 
+    v-model="productInstanceSelected" 
+    value-key="id" 
+    filterable 
+    placeholder="Sélectionnez l'instance"
+    remote
+    :remote-method="remoteMethod"
+    >
     <el-option
       v-for="item in productInstances"
       :key="item.id"
@@ -45,7 +52,14 @@ export default {
         this.productInstanceSelected = newValue;
       }
     }
-  }
+  },
+  methods: {
+      remoteMethod(query) {
+        if (query !== '') {
+          this.$store.dispatch('getProductInstancesByLabel', query);
+        }
+      }
+    }
 };
 </script>
 <style>
