@@ -55,6 +55,19 @@ export default {
         return err;
       });
   },
+  // update products instance by id
+  updateProduct(product) {
+    const http = axios.create({
+      baseURL: BASE_URL
+    });
+
+    return http
+      .put(`/products/${product.id}`, product)
+      .then(result => result.data)
+      .catch(err => {
+        return err;
+      });
+  },
   // return all products instance
   calculateStats() {
     const http = axios.create({

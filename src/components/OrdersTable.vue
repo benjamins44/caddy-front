@@ -67,7 +67,7 @@ export default {
       }
     },
     "$route.params.id"(id) {
-      if (!id && newOrder && newOrder.length > 0) {
+      if (!id && this.orders && this.orders.length > 0) {
         this.selectOrder(this.orders[0]);
         this.init = true;
       }

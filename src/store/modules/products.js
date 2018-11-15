@@ -10,33 +10,33 @@ const state = {
 
 // actions
 const actions = {
-    loadAllProducts( { commit }) {
+    loadAllProducts({ commit }) {
         productsAPI.getProducts()
-            .then( (datas) => {
+            .then((datas) => {
                 commit(types.PRODUCTS, {
                     datas
                 })
             })
     },
-    loadAllProductsByLabel( { commit }, label) {
+    loadAllProductsByLabel({ commit }, label) {
         productsAPI.getProductsByLabel(label)
-            .then( (datas) => {
+            .then((datas) => {
                 commit(types.PRODUCTS, {
                     datas
                 })
             })
     },
-    selectProduct( { commit }, id) {
+    selectProduct({ commit }, id) {
         productsAPI.getProductsById(id)
-            .then( (datas) => {
+            .then((datas) => {
                 commit(types.PRODUCT, {
                     datas
                 })
             })
     },
-    updateProduct( { commit },  product  ) {
-        productsAPI.updateProducts(product)
-            .then( (datas) => {
+    updateProduct({ commit }, product) {
+        productsAPI.updateProduct(product)
+            .then((datas) => {
                 commit(types.PRODUCT, {
                     datas
                 });
@@ -47,9 +47,9 @@ const actions = {
                 });
             })
     },
-    updateProductFavorite( { commit },  { product, favorite }  ) {
+    updateProductFavorite({ commit }, { product, favorite }) {
         productsAPI.updateProductFavorite(product, favorite)
-            .then( (datas) => {
+            .then((datas) => {
                 commit(types.PRODUCT, {
                     datas
                 });
@@ -59,9 +59,9 @@ const actions = {
                 });
             })
     },
-    calculateStats( { commit }) {
+    calculateStats({ commit }) {
         productsAPI.calculateStats()
-            .then( (datas) => {
+            .then((datas) => {
                 commit(types.PRODUCTS, {
                     datas
                 });
@@ -85,7 +85,7 @@ const mutations = {
         datas
     }) {
         state.productSelected = datas
-    }    
+    }
 }
 
 export default {

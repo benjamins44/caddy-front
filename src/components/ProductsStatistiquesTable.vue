@@ -1,7 +1,7 @@
 <template>
   <div class="middle">
     <el-dialog
-      title="Confirmaton"
+      title="Confirmation"
       :visible.sync="dialogAbandonVisible"
       width="30%"
     >

@@ -56,7 +56,7 @@ export default {
   methods: {
       remoteMethod(query) {
         if (query !== '') {
-          this.$store.dispatch('getProductInstancesByLabel', query);
+          this.$store.dispatch('loadAllProductInstancesByLabel', query);
         }
       }
     }
